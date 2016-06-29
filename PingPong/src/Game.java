@@ -1,14 +1,20 @@
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;//per a millorar els grafics
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.JFrame;//finestra
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;//panel
 
+@SuppressWarnings("serial")
 public class Game extends JPanel{
 	Ball ball = new Ball(this);
+	Raqueta raq = new Raqueta(this);
 	private void move(){
-		ball.move();
+		raq.move();
+		ball.move();		
 	}
 	public void paint(Graphics g){
 		super.paint(g);//borra les anteriors grafics sino es crea una linea creuant tota la pag
@@ -16,11 +22,35 @@ public class Game extends JPanel{
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		//el render el q fa es suavitzar els grafics del creble de baix 
 		ball.paint(g2d);//un cercle que va canviant la seva posicio
+		raq.paint(g2d);
 	}
+	public Game() {
+		addKeyListener(new KeyListener() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				raq.keyReleased(e);
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				raq.keyPressed(e);
+			}
+		});
+		setFocusable(true);
+	}
+	public void gameOver(){
+		JOptionPane.showMessageDialog(this ,"Game Over", "Game Over", JOptionPane.YES_NO_OPTION);
+		System.exit(ABORT);
+	}
+	
 	
 	public static void main(String[] args) throws InterruptedException {
 		// TODO Auto-generated method stub
-		JFrame finestra = new JFrame();
+		JFrame finestra = new JFrame("PingPong");
 		Game joc = new Game();
 		finestra.add(joc);
 		finestra.setVisible(true);
@@ -34,5 +64,4 @@ public class Game extends JPanel{
 			
 		}
 	}
-
 }
