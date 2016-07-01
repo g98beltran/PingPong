@@ -1,3 +1,5 @@
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;//per a millorar els grafics
@@ -12,6 +14,10 @@ import javax.swing.JPanel;//panel
 public class Game extends JPanel{
 	Ball ball = new Ball(this);
 	Raqueta raq = new Raqueta(this);
+	int speed = 1;
+	private int getScore(){
+		return speed -1;
+	}
 	private void move(){
 		raq.move();
 		ball.move();		
@@ -23,6 +29,10 @@ public class Game extends JPanel{
 		//el render el q fa es suavitzar els grafics del creble de baix 
 		ball.paint(g2d);//un cercle que va canviant la seva posicio
 		raq.paint(g2d);
+		//dibuixar la puntuació
+		g2d.setColor(Color.GRAY);
+		g2d.setFont(new Font("Verdana", Font.BOLD, 30));
+		g2d.drawString(String.valueOf(getScore()), 10, 30);
 	}
 	public Game() {
 		addKeyListener(new KeyListener() {
@@ -43,16 +53,17 @@ public class Game extends JPanel{
 		setFocusable(true);
 	}
 	public void gameOver(){
-		JOptionPane.showMessageDialog(this ,"Game Over", "Game Over", JOptionPane.YES_NO_OPTION);
+		JOptionPane.showMessageDialog(this ,"El teu score es: "+getScore(), "Game Over", JOptionPane.YES_NO_OPTION);
 		System.exit(ABORT);
 	}
 	
 	
 	public static void main(String[] args) throws InterruptedException {
 		// TODO Auto-generated method stub
-		JFrame finestra = new JFrame("PingPong");
+		JFrame finestra = new JFrame("   PingPong");
 		Game joc = new Game();
 		finestra.add(joc);
+		finestra.setResizable(false);
 		finestra.setVisible(true);
 		finestra.setSize(300, 400);
 		finestra.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

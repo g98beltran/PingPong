@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
@@ -17,6 +18,7 @@ public class Raqueta {
 			x = x + xa;
 	}
 	public void paint(Graphics2D g){
+		g.setColor(Color.BLACK);
 		g.fillRect(x, Y, WIDTH, HEIGHT);
 	}
 	public void keyReleased(KeyEvent e) {
@@ -25,9 +27,9 @@ public class Raqueta {
 
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_LEFT)
-			xa = -1;
+			xa = -joc.speed;
 		if (e.getKeyCode() == KeyEvent.VK_RIGHT)
-			xa = 1;
+			xa = joc.speed;
 	}
 	public Rectangle getBounds(){
 		return new Rectangle(x, Y, WIDTH, HEIGHT);		

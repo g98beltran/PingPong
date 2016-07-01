@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
@@ -17,28 +18,29 @@ public class Ball {
 	public void move() {
 		//cada if provoca una restricció per a canviar de direcció
 		if (x + xa < 0){
-			xa = 1;
+			xa = joc.speed;
 		}
-		if (x + xa > joc.getWidth() - DIAMETER){
-			xa = -1;
+		else if (x + xa > joc.getWidth() - DIAMETER){
+			xa = -joc.speed;
 		}
-		if (y + ya < 0){
-			ya = 1;
+		else if (y + ya < 0){
+			ya = joc.speed;
 		}
-		if (y + ya > 331){
+		else if (y + ya > 331){
 			joc.gameOver();
-			//ya = -1;
-			
+			//ya = -1;			
 		}			
-		if (collision()){
-			ya = -1;
+		else if (collision()){
+			ya = -joc.speed;
 			y = joc.raq.getTopY() - DIAMETER;
+			joc.speed++;
 		}
 
 		x = x + xa;//aumenta 1 o -1 segons la direcció
 		y = y + ya;//aumenta 1 o -1 segons la direcció
 	}
 	public void paint(Graphics2D g){
+		g.setColor(Color.RED);
 		g.fillOval(x, y, DIAMETER, DIAMETER);//bola
 	}
 	public Rectangle getBounds(){
