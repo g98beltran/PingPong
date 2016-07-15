@@ -1,11 +1,12 @@
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
-
+import java.util.Random;
 //clase ball que es el sprite de la pilota
 public class Ball {
+	Random rand = new Random(System.nanoTime());
 	private static final int DIAMETER = 30;
-	int x = 0;//pos inicial
+	int x = rand.nextInt(200);//pos inicial
 	int y = 0;//pos inicial
 	int xa = 1;//variable per canviar de direcció
 	int ya = 1;//variable per canviar de direcció
@@ -29,13 +30,15 @@ public class Ball {
 		else if (y + ya > 331){
 			joc.gameOver();
 			//ya = -1;			
-		}			
+		}	
 		else if (collision()){
 			ya = -joc.speed;
 			y = joc.raq.getTopY() - DIAMETER;
-			joc.speed++;
+			if(joc.score == 2 || joc.score == 6 || joc.score == 14 || joc.score == 20){
+				joc.speed++;
+			}
+			joc.score++;
 		}
-
 		x = x + xa;//aumenta 1 o -1 segons la direcció
 		y = y + ya;//aumenta 1 o -1 segons la direcció
 	}
@@ -48,7 +51,6 @@ public class Ball {
 	}
 	private boolean collision(){
 		return joc.raq.getBounds().intersects(getBounds());
-	}
-	
+	}	
 
 }

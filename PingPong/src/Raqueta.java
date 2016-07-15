@@ -27,7 +27,7 @@ public class Raqueta {
 
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_LEFT)
-			xa = -joc.speed;
+			xa = -joc.speed;//Aquest joc.speed deuria de ser joc.getspeed() pero en els jocs es fa aixina
 		if (e.getKeyCode() == KeyEvent.VK_RIGHT)
 			xa = joc.speed;
 	}

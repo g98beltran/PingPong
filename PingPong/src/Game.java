@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;//per a millorar els grafics
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Random;
 
 import javax.swing.JFrame;//finestra
 import javax.swing.JOptionPane;
@@ -12,12 +13,11 @@ import javax.swing.JPanel;//panel
 
 @SuppressWarnings("serial")
 public class Game extends JPanel{
+	Random rand = new Random(System.nanoTime());
 	Ball ball = new Ball(this);
 	Raqueta raq = new Raqueta(this);
 	int speed = 1;
-	private int getScore(){
-		return speed -1;
-	}
+	int score = 0;
 	private void move(){
 		raq.move();
 		ball.move();		
@@ -32,7 +32,7 @@ public class Game extends JPanel{
 		//dibuixar la puntuació
 		g2d.setColor(Color.GRAY);
 		g2d.setFont(new Font("Verdana", Font.BOLD, 30));
-		g2d.drawString(String.valueOf(getScore()), 10, 30);
+		g2d.drawString(String.valueOf(score), 10, 30);
 	}
 	public Game() {
 		addKeyListener(new KeyListener() {
@@ -53,8 +53,19 @@ public class Game extends JPanel{
 		setFocusable(true);
 	}
 	public void gameOver(){
-		JOptionPane.showMessageDialog(this ,"El teu score es: "+getScore(), "Game Over", JOptionPane.YES_NO_OPTION);
-		System.exit(ABORT);
+		String[] go = new String[] {"Si","No"};
+		int a =JOptionPane.showOptionDialog(null, "El teu score es: "+score+"\nVol seguir juant?",
+				"Game Over",JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, go,go[0]);
+		if(a == 1 || a == -1){
+			System.exit(ABORT);
+		}else{
+			ball.x = rand.nextInt(200);
+			ball.ya = 1; 
+			ball.xa = 1;
+			score = 0;
+			speed = 1;
+			ball.y = 0;
+		}
 	}
 	
 	
@@ -72,7 +83,6 @@ public class Game extends JPanel{
 			joc.move();//criada al metode de menejarte
 			joc.repaint();//quan es menja el q fa es tornar a pintar el crecle
 			Thread.sleep(10);//el q fa es que puga fer altres coses sino no se pintaria res
-			
 		}
 	}
 }
